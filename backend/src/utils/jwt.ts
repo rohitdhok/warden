@@ -18,3 +18,14 @@ export function verifyAccessToken(token:string) {
 
     return decoded;
 }
+
+export function extractToken(authHeader: string | undefined) {
+    if (!(authHeader?.startsWith("Bearer "))) {
+        return null
+    }
+
+    const token = authHeader.split(" ")[1]?.trim();
+    
+    if (!token) { return null}
+    return token;
+}
