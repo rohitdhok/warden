@@ -150,6 +150,7 @@ vite.config.ts.timestamp-*
 
 # Environment variables
 backend/.env
+backend/Notes.md
 
 # tests
 backend/src/playground

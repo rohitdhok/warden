@@ -1,0 +1,5 @@
+ALTER TABLE api_keys
+ADD COLUMN client_id BIGINT NOT NULL REFERENCES clients(id) ON DELETE CASCADE;
+
+ALTER TABLE api_keys
+DROP COLUMN client_name;

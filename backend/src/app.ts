@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json())
 app.use("/health", healthRoutes)
 app.get("/protected", validateApiKey(), handleRateLimit(), (req, res) => {
-    return res.json({message: "access granted"})
+    return res.json({message: `access granted ${req.clientId ?? null}`})
 })
 app.use(routeNotFound)
 app.use(handleError)

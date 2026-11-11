@@ -6,18 +6,18 @@ import { rateLimitScript } from "../scripts/rate-limit.script.js";
 
 export function handleRateLimit() : RequestHandler {
     return async (req, res, next) => {
-        const api_key = req.headers["x-api-key"];
-
-        if (typeof api_key !== "string") { return next(new AppError("invalid API key", 401)) }
-
-        const key = `warden:rate-limit:${api_key}`;
+        if (!req.clientId) {
+        return next(new AppError("client identity missing", 401));
+        }
+        
+        const key = `warden:rate-limit:${req.clientId}`;
         
         const result = await redisClient.eval(rateLimitScript, {
             keys: [key],
             arguments: [String(RATE_LIMIT), String(WINDOW_SECONDS)]
         })
 
-        if (result === 0) {
+        if (Number(result === 0)) {
             return next(new AppError(`you are being rate limited`, 429))
         } 
 
