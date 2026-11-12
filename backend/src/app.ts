@@ -8,17 +8,18 @@ import { handleRateLimit } from "./middlewares/rate-limit.middleware.js"
 import { healthRoutes } from "./routes/healthRoutes.js"
 import { clientRoutes } from "./routes/client.routes.js"
 import { adminRoutes } from "./routes/admin.routes.js"
+import { servicesRoutes } from "./routes/service.routes.js"
 
 const app = express()
 
 
 app.use(express.json())
+
 app.use("/health", healthRoutes)
 app.use("/admin", clientRoutes)
 app.use("/admin", adminRoutes)
-app.get("/protected", validateApiKey(), handleRateLimit(), (req, res) => {
-    return res.json({message: `access granted ${req.clientId ?? null}`})
-})
+app.use("/admin", servicesRoutes)
+
 app.use(routeNotFound)
 app.use(handleError)
 
